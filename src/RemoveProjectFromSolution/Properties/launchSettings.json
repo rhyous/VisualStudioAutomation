@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RemoveProjectFromSolution": {
+      "commandName": "Project",
+      "commandLineArgs": "L=\"C:\\path\\to\\listofsolutions.txt\" P=Common"
+    }
+  }
+}
