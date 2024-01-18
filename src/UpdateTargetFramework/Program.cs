@@ -94,6 +94,7 @@ namespace UpdateProjectsToDotNet48
                     Console.WriteLine($"Updated TargetFramework to .NET Framework 4.8 for project: {fileName}");
                 }
             }
+            project.Save();
         }
     }
 }

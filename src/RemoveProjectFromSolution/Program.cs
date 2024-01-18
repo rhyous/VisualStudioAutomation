@@ -5,6 +5,7 @@ using RemoveProjectFromSolution.Arguments;
 using Rhyous.SimpleArgs;
 using Rhyous.Tools;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -19,12 +20,17 @@ namespace RemoveProjectFromSolution
             var solutionListFile = Args.Value("L");
             var solutionFullPath = Args.Value("S");
             var projectToRemove = Args.Value("P");
+            string[] projectsToRemove;
+            if (projectToRemove.Contains(","))
+                projectsToRemove = projectToRemove.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            else
+                projectsToRemove = new[] { projectToRemove };
 
             var projectRemover = new ProjectRemover(new Retry());
             if (!string.IsNullOrEmpty(solutionFullPath))
-                await projectRemover.RemoveAsync(solutionFullPath, projectToRemove);
+                await projectRemover.RemoveAsync(solutionFullPath, projectsToRemove);
             else if (!string.IsNullOrEmpty(solutionListFile))
-                await projectRemover.RemoveAllAsync(solutionListFile, projectToRemove);
+                await projectRemover.RemoveAllAsync(solutionListFile, projectsToRemove);
         }
     }
 
@@ -36,18 +42,18 @@ namespace RemoveProjectFromSolution
         {
             _retry = retry;
         }
-        public async Task RemoveAllAsync(string solutionListFile, string projectToRemove)
+        public async Task RemoveAllAsync(string solutionListFile, IEnumerable<string> projectsToRemove)
         {
             if (!File.Exists(solutionListFile))
                 throw new Exception($"File does not exist: {solutionListFile}");
             var slnPaths = File.ReadAllLines(solutionListFile);
             foreach (var slnPath in slnPaths)
             {
-                await RemoveAsync(slnPath, projectToRemove);
+                await RemoveAsync(slnPath, projectsToRemove);
             }
         }
 
-        public async Task RemoveAsync(string solutionFullPath, string projectToRemove)
+        public async Task RemoveAsync(string solutionFullPath, IEnumerable<string> projectsToRemove)
         {
             // Get an instance of the Visual Studio IDE
             DTE2 dte = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.17.0");
@@ -84,16 +90,20 @@ namespace RemoveProjectFromSolution
             }
 
             // Find the project to delete
-            Project project = FindProject(projectToRemove, solution);
+            foreach (var projectToRemove in projectsToRemove)
+            {
 
-            // Delete the project
-            if (project != null)
-            {
-                solution.Remove(project);
-            }
-            else
-            {
-                Console.WriteLine($"{solutionFullPath}: Project {projectToRemove} not found!");
+                Project project = FindProject(projectToRemove, solution);
+
+                // Delete the project
+                if (project != null)
+                {
+                    solution.Remove(project);
+                }
+                else
+                {
+                    Console.WriteLine($"{solutionFullPath}: Project {projectToRemove} not found!");
+                }
             }
 
             // Save and close the solution
@@ -111,20 +121,29 @@ namespace RemoveProjectFromSolution
             foreach (Project p in solution.Projects)
             {
                 //Console.WriteLine(p.Name);
-                if (p.Name.Equals(projectName, StringComparison.OrdinalIgnoreCase))
-                {
-                    return p;
-                }
 
-                // If the project is located within a solution folder, search within the folder
-                if (p.Kind == ProjectKinds.vsProjectKindSolutionFolder)
+                var set = false;
+                while (!set)
                 {
-                    var found = FindProject(projectName, p);
-                    if (found != null)
-                        return found;
+                    try
+                    {
+                        if (p.Name.Equals(projectName, StringComparison.OrdinalIgnoreCase))
+                        {
+                            return p;
+                        }
+
+                        // If the project is located within a solution folder, search within the folder
+                        if (p.Kind == ProjectKinds.vsProjectKindSolutionFolder)
+                        {
+                            var found = FindProject(projectName, p);
+                            if (found != null)
+                                return found;
+                        }
+                        set = true;
+                    }
+                    catch (COMException) { System.Threading.Thread.Sleep(100); }
                 }
             }
-
             return null;
         }
 
@@ -149,7 +168,7 @@ namespace RemoveProjectFromSolution
 
 
                 // If the project is located within a solution folder, search within the folder
-                if (pi != null && pi.Kind == ProjectKinds.vsProjectKindSolutionFolder)
+                if (pi != null && pi.SubProject != null && pi.SubProject.Kind == ProjectKinds.vsProjectKindSolutionFolder)
                 {
                     var found = FindProject(projectName, pi.SubProject);
                     if (found != null)

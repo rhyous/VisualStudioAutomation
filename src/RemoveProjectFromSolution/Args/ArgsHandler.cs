@@ -14,10 +14,10 @@ namespace RemoveProjectFromSolution.Arguments
     /// arguments are defined.
     /// </summary>
     public sealed class ArgsHandler : ArgsHandlerBase
-{
-    public override void InitializeArguments(IArgsManager argsManager)
     {
-        Arguments.AddRange(new List<Argument>
+        public override void InitializeArguments(IArgsManager argsManager)
+        {
+            Arguments.AddRange(new List<Argument>
             {
                 new Argument
                 {
@@ -57,12 +57,12 @@ namespace RemoveProjectFromSolution.Arguments
                 // },
                 new ConfigFileArgument(argsManager) // This is a special Argument type to allow for args in a file
             });
-    }
+        }
 
-    public override void HandleArgs(IReadArgs inArgsHandler)
-    {
-        base.HandleArgs(inArgsHandler);
-        Console.WriteLine("I handled the args!!!");
+        public override void HandleArgs(IReadArgs inArgsHandler)
+        {
+            base.HandleArgs(inArgsHandler);
+            Console.WriteLine("I handled the args!!!");
+        }
     }
-}
 }

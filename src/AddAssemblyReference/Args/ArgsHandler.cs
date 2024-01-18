@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace RemoveProjectFromSolution.Arguments
+namespace AddSystemConfigurationReference.Arguments
 {
     // Add this line of code to Main() in Program.cs
     //
@@ -27,6 +27,23 @@ namespace RemoveProjectFromSolution.Arguments
                     Example = "{name}=c:\\path\\to\\Solution.sln",
                     Action = (value) => { Console.WriteLine(value); },
                     IsRequired = true
+                },
+                new Argument
+                {
+                    Name = "Assemblies",
+                    ShortName = "A",
+                    Description = "The assemblies, comma separated.",
+                    Example = "{name}=System.Configuration,System.Web",
+                    Action = (value) => { Console.WriteLine(value); },
+                    IsRequired = true
+                },
+                new Argument
+                {
+                    Name = "P",
+                    ShortName = "ProjectName",
+                    Description = "Only update the provided project",
+                    Example = "{name}=NonDefaultValue",
+                    IsRequired = false
                 },
                 // Add more args here
                 // new Argument

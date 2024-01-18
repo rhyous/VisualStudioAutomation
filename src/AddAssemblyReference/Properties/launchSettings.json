@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AddAssemblyReference": {
+      "commandName": "Project",
+      "commandLineArgs": "S=\"C:\\tfs\\ORC-26530\\CsprojesWithCommon2.sln\" A=Microsoft.CSharp,System,System.Configuration,System.Core,System.Data,System.Drawing,System.EnterpriseServices,System.IO.Compression,System.Net.Http,System.Net.Http.WebRequest,System.Runtime.Caching,System.Runtime.Serialization,System.ServiceModel,System.Transactions,System.Web,System.Web.Extensions,System.Windows.Forms,System.Xml"
+    }
+  }
+}
