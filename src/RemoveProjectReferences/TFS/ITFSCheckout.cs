@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Rhyous.NuGetPackageUpdater
+namespace Rhyous.RemoveProjectReferences
 {
     internal interface ITFSCheckout
     {

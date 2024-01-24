@@ -27,12 +27,21 @@ namespace RemoveProjectReferences.Arguments
                 },
                 new Argument
                 {
-                    Name = "FileList",
-                    ShortName = "L",
-                    Description = "The list of files to remove the ProjectReference from.",
-                    Example = "{name}=c:\\Some\\Dir\\SomeList.txt",
+                    Name = "FileExtension",
+                    ShortName = "FE",
+                    Description = "The file extension to find.",
+                    Example = "{name}=csproj",
                     IsRequired = true
-                },                new Argument
+                },
+                new Argument
+                {
+                    Name = "SearchDirectory",
+                    ShortName = "SD",
+                    Description = "The search directory.",
+                    Example = "{name}=c:\\Some\\Dir",
+                    IsRequired = true
+                },
+                new Argument
                 {
                     Name = "DoNothing",
                     ShortName = "dn",

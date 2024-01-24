@@ -2,7 +2,7 @@
   "profiles": {
     "AddProjectsToSolution": {
       "commandName": "Project",
-      "commandLineArgs": "P=\\inContact.Interfaces.csproj L=C:\\tfs\\ORC-26530\\newfile.txt"
+      "commandLineArgs": "P=\\inContact.Interfaces.csproj FE=wixproj SD=C:\\TFS\\ORC-30544 tfc=true"
     }
   }
 }

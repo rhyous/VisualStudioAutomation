@@ -1,23 +1,38 @@
 ﻿using RemoveProjectReferences.Arguments;
-using Rhyous.NuGetPackageUpdater;
-using Rhyous.NuGetPackageUpdater.TFS;
+using Rhyous.RemoveProjectReferences;
+using Rhyous.RemoveProjectReferences.TFS;
 using Rhyous.SimpleArgs;
 using Rhyous.StringLibrary;
 
 new ArgsManager<ArgsHandler>().Start(args);
-var fileList = Args.Value("L");
+var fileExtension = Args.Value("FE");
 var searchPattern = Args.Value("P");
+var searchDirectory = Args.Value("SD");
 var settings = new Settings();
 settings.DoNothing = Args.Value("DoNothing").To<bool>();
 settings.TFPath = Args.Value("TFdotExePath").To<string>();
 settings.CheckoutFromTFS = Args.Value("TFSCheckout").To<bool>();
 settings.ExcludeDirs = Args.Value("ExcludeDirectories")?.Split(';', StringSplitOptions.RemoveEmptyEntries)?.ToList();
 
+var files = new List<string>();
+foreach (var csprojPath in Directory.GetFiles(searchDirectory, $"*.{fileExtension}", SearchOption.AllDirectories))
+{
+    if (File.ReadAllText(csprojPath).Contains(searchPattern))
+    {
+        files.Add(csprojPath);
+    }
+}
 
-var files = File.ReadAllLines(fileList);
 
 var tfsCheckout = new TFSCheckout(settings);
-tfsCheckout.Checkout(files);
+if(settings.CheckoutFromTFS)
+    tfsCheckout.Checkout(files);
+if (settings.DoNothing)
+{
+    foreach (var file in files)
+        Console.WriteLine(file);
+    return;
+}   
 
 foreach (var file in files)
 {

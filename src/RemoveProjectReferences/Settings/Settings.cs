@@ -1,7 +1,4 @@
-﻿using Rhyous.NuGetPackageUpdater;
-using System.Collections.Generic;
-
-namespace Rhyous.NuGetPackageUpdater
+﻿namespace Rhyous.RemoveProjectReferences
 {
     internal class Settings : ISettings
     {

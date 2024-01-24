@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace Rhyous.NuGetPackageUpdater.TFS
+namespace Rhyous.RemoveProjectReferences.TFS
 {
     internal class TFSCheckout : ITFSCheckout
     {
