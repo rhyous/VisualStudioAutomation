@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AddProjectsToSolution": {
+      "commandName": "Project",
+      "commandLineArgs": "P=\\inContact.Interfaces.csproj L=C:\\tfs\\ORC-26530\\newfile.txt"
+    }
+  }
+}

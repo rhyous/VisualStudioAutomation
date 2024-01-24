@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AddProjectsToSolution": {
+      "commandName": "Project",
+      "commandLineArgs": "S=C:\\tfs\\ORC-26530\\MySolution.sln P=\\inContact.Interfaces.csproj SD=C:\\tfs\\ORC-26530 FE=wixproj"
+    }
+  }
+}

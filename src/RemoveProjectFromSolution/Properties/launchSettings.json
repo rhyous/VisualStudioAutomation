@@ -2,7 +2,7 @@
   "profiles": {
     "RemoveProjectFromSolution": {
       "commandName": "Project",
-      "commandLineArgs": "L=\"C:\\path\\to\\listofsolutions.txt\" P=Common"
+      "commandLineArgs": "L=\"C:\\tfs\\ORC-26530\\SlnsWithCommonAfterMerge.txt\" P=CommonTests,Common"
     }
   }
 }
