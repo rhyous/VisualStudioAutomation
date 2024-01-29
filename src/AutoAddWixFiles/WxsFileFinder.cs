@@ -37,10 +37,14 @@ namespace Rhyous.AutoAddDLLtoWXSFiles
                     {
                         var line = lines[i];
                         // ignore comment
-                        if (Regex.IsMatch(line, "^\\s*<!--") && !Regex.IsMatch(line, "^\\s*<!--.*-->$"))
+                        if (Regex.IsMatch(line, "^\\s*<!--"))
                             insideBlockComment = true;
-                        if (insideBlockComment || Regex.IsMatch(line, "^\\s*(\\\\|<!--)"))
+                        if (insideBlockComment)
+                        {
+                            if (Regex.IsMatch(line, "^\\s*-->"))
+                                insideBlockComment = false;
                             continue;
+                        }
                         if (line.Contains(_settings.Dll))
                         {
                             dllAlreadyExists = true;
