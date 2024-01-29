@@ -1,10 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFrameworks>net48</TargetFrameworks>
     <Authors>Jared Barneck (Rhyous)</Authors>
     <Company>Rhyous Publishing LLC</Company>
-    <OutputType>Exe</OutputType>
+    <AssemblyName>Rhyous.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Rhyous.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
