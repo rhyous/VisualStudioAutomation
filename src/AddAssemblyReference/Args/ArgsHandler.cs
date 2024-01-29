@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AddSystemConfigurationReference.Arguments
+namespace Rhyous.AddSystemConfigurationReference.Arguments
 {
     // Add this line of code to Main() in Program.cs
     //

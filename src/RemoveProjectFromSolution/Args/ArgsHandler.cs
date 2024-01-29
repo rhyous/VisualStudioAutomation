@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace RemoveProjectFromSolution.Arguments
+namespace Rhyous.RemoveProjectFromSolution.Arguments
 {
     // Add this line of code to Main() in Program.cs
     //

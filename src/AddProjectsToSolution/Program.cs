@@ -1,7 +1,7 @@
 ﻿using EnvDTE;
 using EnvDTE100;
 using EnvDTE80;
-using AddProjectsToSolution.Arguments;
+using Rhyous.AddProjectsToSolution.Arguments;
 using Rhyous.SimpleArgs;
 using Rhyous.Tools;
 using System;
@@ -10,7 +10,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace AddProjectsToSolution
+namespace Rhyous.AddProjectsToSolution
 {
     internal class Program
     {

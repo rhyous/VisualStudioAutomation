@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using AddSystemConfigurationReference.Arguments;
+using Rhyous.AddSystemConfigurationReference.Arguments;
 using EnvDTE;
 using EnvDTE100;
 using EnvDTE80;
@@ -9,7 +9,7 @@ using EnvDTE90;
 using Rhyous.SimpleArgs;
 using VSLangProj;
 
-namespace AddSystemConfigurationReference
+namespace Rhyous.AddSystemConfigurationReference
 {
     class Program
     {

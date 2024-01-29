@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AddProjectsToSolution.Arguments
+namespace Rhyous.AddProjectsToSolution.Arguments
 {
     // Add this line of code to Main() in Program.cs
     //

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using EnvDTE;
+﻿using EnvDTE;
 using EnvDTE100;
 using EnvDTE80;
-using EnvDTE90;
-using RemoveProjectFromSolution.Arguments;
+using Rhyous.RemoveProjectFromSolution.Arguments;
 using Rhyous.SimpleArgs;
+using System;
 
-namespace UpdateProjectsToDotNet48
+namespace Rhyous.UpdateTargetFramework
 {
     class Program
     {

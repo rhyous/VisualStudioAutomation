@@ -1,6 +1,6 @@
 ﻿using Rhyous.SimpleArgs;
 
-namespace RemoveProjectReferences.Arguments
+namespace Rhyous.RemoveProjectReferences.Arguments
 {
     // Add this line of code to Main() in Program.cs
     //

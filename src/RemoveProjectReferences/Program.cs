@@ -1,4 +1,4 @@
-﻿using RemoveProjectReferences.Arguments;
+﻿using Rhyous.RemoveProjectReferences.Arguments;
 using Rhyous.RemoveProjectReferences;
 using Rhyous.RemoveProjectReferences.TFS;
 using Rhyous.SimpleArgs;
@@ -25,14 +25,14 @@ foreach (var csprojPath in Directory.GetFiles(searchDirectory, $"*.{fileExtensio
 
 
 var tfsCheckout = new TFSCheckout(settings);
-if(settings.CheckoutFromTFS)
-    tfsCheckout.Checkout(files);
 if (settings.DoNothing)
 {
     foreach (var file in files)
         Console.WriteLine(file);
     return;
-}   
+}
+if (settings.CheckoutFromTFS)
+    tfsCheckout.Checkout(files);
 
 foreach (var file in files)
 {

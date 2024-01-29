@@ -1,7 +1,7 @@
 ﻿using EnvDTE;
 using EnvDTE100;
 using EnvDTE80;
-using RemoveProjectFromSolution.Arguments;
+using Rhyous.RemoveProjectFromSolution.Arguments;
 using Rhyous.SimpleArgs;
 using Rhyous.Tools;
 using System;
@@ -10,7 +10,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace RemoveProjectFromSolution
+namespace Rhyous.RemoveProjectFromSolution
 {
     internal class Program
     {
