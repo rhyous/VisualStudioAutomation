@@ -1,6 +1,7 @@
 ﻿using EnvDTE;
 using EnvDTE100;
 using EnvDTE80;
+using EnvDTE90;
 using Rhyous.AddProjectsToSolution.Arguments;
 using Rhyous.SimpleArgs;
 using Rhyous.Tools;
@@ -32,22 +33,7 @@ namespace Rhyous.AddProjectsToSolution
                 }
             }
 
-            var projectAdder = new ProjectAdder(new Retry());
-            await projectAdder.AddAsync(solutionFullPath, projectsToAdd);
-        }
-    }
 
-    internal class ProjectAdder
-    {
-        private readonly Retry _retry;
-
-        public ProjectAdder(Retry retry)
-        {
-            _retry = retry;
-        }
-
-        public async Task AddAsync(string solutionFullPath, IEnumerable<string> projectsToAdd)
-        {
             // Get an instance of the Visual Studio IDE
             DTE2 dte = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.17.0");
             var set = false;
@@ -56,7 +42,8 @@ namespace Rhyous.AddProjectsToSolution
                 try { dte.SuppressUI = true; set = true; }
                 catch (COMException) { System.Threading.Thread.Sleep(100); }
             }
-            Solution4 solution = _retry.Run((DTE2 dte2) => (Solution4)dte2.Solution, dte);
+            var retry = new Retry();
+            Solution4 solution = retry.Run((DTE2 dte2) => (Solution4)dte2.Solution, dte);
 
             // Create an instance of SolutionEvents
             SolutionEvents solutionEvents = dte.Events.SolutionEvents;
@@ -82,11 +69,8 @@ namespace Rhyous.AddProjectsToSolution
                 catch (COMException) { System.Threading.Thread.Sleep(100); }
             }
 
-            // Find the project to delete
-            foreach (var projectToAdd in projectsToAdd)
-            {
-                solution.AddFromFile(projectToAdd);
-            }
+            var projectAdder = new ProjectAdder(dte, solution, retry);
+            projectAdder.Add(solutionFullPath, projectsToAdd);
 
             // Save and close the solution
             try { solution.SaveAs(solutionFullPath); }
@@ -96,6 +80,32 @@ namespace Rhyous.AddProjectsToSolution
                 Console.WriteLine(e.Message);
             }
             solution.Close();
+        }
+    }
+
+    internal class ProjectAdder
+    {
+        private readonly DTE2 _dte;
+        private readonly Solution4 _solution;
+        private readonly Retry _retry;
+
+        public ProjectAdder(DTE2 dte,
+                            Solution4 solution,
+                            Retry retry)
+        {
+            _dte = dte;
+            _solution = solution;
+            _retry = retry;
+        }
+
+        public void Add(string solutionFullPath, IEnumerable<string> projectsToAdd)
+        {
+
+            // Find the project to delete
+            foreach (var projectToAdd in projectsToAdd)
+            {
+                 _dte.ExecuteCommand($"File.AddExistingProject \"{projectToAdd}\"");
+            }
         }
     }
 }

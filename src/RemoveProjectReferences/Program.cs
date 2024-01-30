@@ -23,15 +23,13 @@ foreach (var csprojPath in Directory.GetFiles(searchDirectory, $"*.{fileExtensio
     }
 }
 
-
 var tfsCheckout = new TFSCheckout(settings);
 if (settings.DoNothing)
 {
     foreach (var file in files)
         Console.WriteLine(file);
-    return;
 }
-if (settings.CheckoutFromTFS)
+if (!settings.DoNothing && settings.CheckoutFromTFS)
     tfsCheckout.Checkout(files);
 
 foreach (var file in files)
@@ -61,5 +59,6 @@ foreach (var file in files)
         if (i < lines.Length)
             line = lines[i];
     }
-    File.WriteAllLines(file, newFileLines);
+    if (!settings.DoNothing)
+        File.WriteAllLines(file, newFileLines);
 }
