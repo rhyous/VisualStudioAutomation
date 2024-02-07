@@ -47,7 +47,7 @@ namespace Rhyous.AutoAddDLLtoWXSFiles
                         if (line.Contains(_settings.Dll, StringComparison.OrdinalIgnoreCase))
                         {
                             dllAlreadyExists = true;
-                            break;
+                            addDetails.FoundDllLine = i;
                         }
                         if (string.IsNullOrEmpty(addDetails.File) && line.Contains("Source=") && _settings.PrototypeDlls.Any(dll => line.Contains($"){dll}", StringComparison.OrdinalIgnoreCase)))
                         {
