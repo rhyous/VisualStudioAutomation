@@ -24,13 +24,13 @@ var potentialWixFiles = finder.FindPotentialWxsFiles(dirs);
 
 if (settings.DoNothing)
 {
-    foreach (var file in files)
-        Console.WriteLine(file);
+    foreach (var file in potentialWixFiles)
+        Console.WriteLine(potentialWixFiles);
 }
 if (!settings.DoNothing && settings.CheckoutFromTFS)
 {
     var tfsCheckout = new TFSCheckout(settings);
-    tfsCheckout.Checkout(files);
+    tfsCheckout.Checkout(potentialWixFiles.Select(d => d.File));
 }
 
 var wxsDllFileAdder = new WxsDllFileAdder(settings);
