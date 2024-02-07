@@ -17,7 +17,6 @@ namespace Rhyous.AutoAddDLLtoWXSFiles
             var potentialWxsFiles = new Dictionary<string, AddDetails>();
             foreach (var dir in dirs)
             {
-                potentialWxsFiles.Add(dir, null);
                 if (!Directory.Exists(dir))
                 {
                     Console.WriteLine($"This directory doesn't exist: {dir} ");
@@ -41,16 +40,16 @@ namespace Rhyous.AutoAddDLLtoWXSFiles
                             insideBlockComment = true;
                         if (insideBlockComment)
                         {
-                            if (Regex.IsMatch(line, "^\\s*-->"))
+                            if (Regex.IsMatch(line, "\\s*-->"))
                                 insideBlockComment = false;
                             continue;
                         }
-                        if (line.Contains(_settings.Dll))
+                        if (line.Contains(_settings.Dll, StringComparison.OrdinalIgnoreCase))
                         {
                             dllAlreadyExists = true;
                             break;
                         }
-                        if (string.IsNullOrEmpty(addDetails.File) && line.Contains("Source=") && _settings.PrototypeDlls.Any(dll => line.Contains($"){dll}")))
+                        if (string.IsNullOrEmpty(addDetails.File) && line.Contains("Source=") && _settings.PrototypeDlls.Any(dll => line.Contains($"){dll}", StringComparison.OrdinalIgnoreCase)))
                         {
                             foundLine = true;
                             addDetails.File = wxsFile;
@@ -63,7 +62,7 @@ namespace Rhyous.AutoAddDLLtoWXSFiles
                             addDetails.AfterLineNumber = i;
                         }
                     }
-                    if (dllAlreadyExists)
+                     if (dllAlreadyExists)
                         break;
                 }
                 if (!string.IsNullOrEmpty(addDetails.File))
