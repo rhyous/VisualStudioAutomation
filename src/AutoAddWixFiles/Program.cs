@@ -34,12 +34,12 @@ if (!settings.DoNothing && settings.CheckoutFromTFS)
 }
 
 var wxsDllFileAdder = new WxsDllFileAdder(settings);
-foreach (var wxsFile in potentialWixFiles.Where(ad=>ad.FoundDllLine == 0))
+foreach (var wxsFile in potentialWixFiles.Where(ad=>ad.FoundDllLineStart == 0))
 {
     await wxsDllFileAdder.AddAsync(wxsFile);
 }
 var wxsDllFileLineUpdater = new WxsDllFileLineUpdater(settings);
-foreach (var wxsFile in potentialWixFiles.Where(ad => ad.FoundDllLine > 0))
+foreach (var wxsFile in potentialWixFiles.Where(ad => ad.FoundDllLineStart > 0))
 {
     await wxsDllFileLineUpdater.AddAsync(wxsFile);
 }
