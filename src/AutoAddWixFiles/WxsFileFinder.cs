@@ -53,6 +53,7 @@ namespace Rhyous.AutoAddDLLtoWXSFiles
                                 i++;
                             }
                             addDetails.FoundDllLineEnd = i;
+                            addDetails.LeadingWhitespace = ParseForLeadingWhiteSpace(lines, i);
                         }
                         if (string.IsNullOrEmpty(addDetails.File) && line.Contains("Source=") && _settings.PrototypeDlls.Any(dll => Regex.IsMatch(line, $"\\)[\\\\]{{0,1}}{dll}", RegexOptions.IgnoreCase)))
                         {
