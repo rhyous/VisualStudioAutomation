@@ -14,13 +14,13 @@
         {
             var lines = File.ReadAllLines(addDetails.File);
             var newFileLines = new List<string>();
-            for (int i = 0; i < addDetails.FoundDllLine; i++)
+            for (int i = 0; i < addDetails.FoundDllLineStart; i++)
             {
                 newFileLines.Add(lines[i]);
             }
             // handle line 
             newFileLines.Add(string.Format(Template, addDetails.LeadingWhitespace, _settings.Dll, addDetails.ProjectName));
-            for (int i = addDetails.FoundDllLine + 1; i < lines.Length; i++)
+            for (int i = addDetails.FoundDllLineEnd + 1; i < lines.Length; i++)
             {
                     newFileLines.Add(lines[i]);
             }

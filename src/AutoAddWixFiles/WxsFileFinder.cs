@@ -31,7 +31,6 @@ namespace Rhyous.AutoAddDLLtoWXSFiles
                     var lines = File.ReadAllLines(wxsFile);
                     var newFileLines = new List<string>();
                     bool insideBlockComment = false;
-                    bool foundLine = false;
                     for (var i = 0; i < lines.Length; i++)
                     {
                         var line = lines[i];
@@ -47,22 +46,27 @@ namespace Rhyous.AutoAddDLLtoWXSFiles
                         if (line.Contains(_settings.Dll, StringComparison.OrdinalIgnoreCase))
                         {
                             dllAlreadyExists = true;
-                            addDetails.FoundDllLine = i;
+                            addDetails.File = wxsFile;
+                            addDetails.FoundDllLineStart = i;
+                            while (!lines[i].Contains("/>"))
+                            {
+                                i++;
+                            }
+                            addDetails.FoundDllLineEnd = i;
                         }
                         if (string.IsNullOrEmpty(addDetails.File) && line.Contains("Source=") && _settings.PrototypeDlls.Any(dll => line.Contains($"){dll}", StringComparison.OrdinalIgnoreCase)))
                         {
-                            foundLine = true;
                             addDetails.File = wxsFile;
                             addDetails.ProjectName = ParseForProjName(line);
                             addDetails.LeadingWhitespace = ParseForLeadingWhiteSpace(lines, i);
-                        }
-                        if (foundLine && lines[i].Contains("/>"))
-                        {
-                            foundLine = false;
-                            addDetails.AfterLineNumber = i;
+                            while (!lines[i].Contains("/>"))
+                            {
+                                i++;
+                                addDetails.AfterLineNumber = i;
+                            }
                         }
                     }
-                     if (dllAlreadyExists)
+                    if (dllAlreadyExists)
                         break;
                 }
                 if (!string.IsNullOrEmpty(addDetails.File))
