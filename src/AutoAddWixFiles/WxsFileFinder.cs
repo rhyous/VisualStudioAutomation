@@ -54,7 +54,7 @@ namespace Rhyous.AutoAddDLLtoWXSFiles
                             }
                             addDetails.FoundDllLineEnd = i;
                         }
-                        if (string.IsNullOrEmpty(addDetails.File) && line.Contains("Source=") && _settings.PrototypeDlls.Any(dll => line.Contains($"){dll}", StringComparison.OrdinalIgnoreCase)))
+                        if (string.IsNullOrEmpty(addDetails.File) && line.Contains("Source=") && _settings.PrototypeDlls.Any(dll => Regex.IsMatch(line, $"\\)[\\\\]{{0,1}}{dll}", RegexOptions.IgnoreCase)))
                         {
                             addDetails.File = wxsFile;
                             addDetails.ProjectName = ParseForProjName(line);
