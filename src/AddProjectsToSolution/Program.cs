@@ -25,7 +25,8 @@ namespace Rhyous.AddProjectsToSolution
             string[] projectsToRemove;
 
             var projectsToAdd = new List<string>();
-            foreach (var csprojPath in Directory.GetFiles(searchDirectory, $"*.{fileExtension}", SearchOption.AllDirectories))
+            var csprojFiles = Directory.GetFiles(searchDirectory, $"*.{fileExtension}", SearchOption.AllDirectories);
+            foreach (var csprojPath in csprojFiles)
             {
                 if (File.ReadAllText(csprojPath).Contains(searchPattern))
                 {
@@ -79,7 +80,7 @@ namespace Rhyous.AddProjectsToSolution
                 Console.WriteLine($"{solutionFullPath}: Failed to save.");
                 Console.WriteLine(e.Message);
             }
-            solution.Close();
+            //solution.Close();
         }
     }
 

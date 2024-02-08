@@ -77,6 +77,15 @@ namespace Rhyous.RemoveProjectReferences.Arguments
                     Example = "{name}=c:\\dev\folderToSkip",
                     IsRequired = false
                 },
+                new Argument
+                {
+                    Name = "WriteFileList",
+                    ShortName = "w",
+                    Description = "Writes a list of changed files to disk.",
+                    Example = "{name}=true",
+                    DefaultValue = "true",
+                    IsRequired = false
+                },
                 new ConfigFileArgument(argsManager) // This is a special Argument type to allow for args in a file
             });
         }

@@ -8,6 +8,7 @@ new ArgsManager<ArgsHandler>().Start(args);
 var fileExtension = Args.Value("FE");
 var searchPattern = Args.Value("P");
 var searchDirectory = Args.Value("SD");
+var writeChangeFilesListToDisk = Args.Value("w").To<bool>();
 var settings = new Settings();
 settings.DoNothing = Args.Value("DoNothing").To<bool>();
 settings.TFPath = Args.Value("TFdotExePath").To<string>();
@@ -29,6 +30,11 @@ if (settings.DoNothing)
     foreach (var file in files)
         Console.WriteLine(file);
 }
+if (writeChangeFilesListToDisk)
+{
+    File.WriteAllLines(".\\ChangedFiles.txt", files.ToArray());
+}
+
 if (!settings.DoNothing && settings.CheckoutFromTFS)
     tfsCheckout.Checkout(files);
 

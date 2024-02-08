@@ -7,6 +7,7 @@ using Rhyous.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -17,20 +18,24 @@ namespace Rhyous.RemoveProjectFromSolution
         static async Task Main(string[] args)
         {
             new ArgsManager<ArgsHandler>().Start(args);
-            var solutionListFile = Args.Value("L");
+            var searchDirectory = Args.Value("SD");
             var solutionFullPath = Args.Value("S");
-            var projectToRemove = Args.Value("P");
-            string[] projectsToRemove;
-            if (projectToRemove.Contains(","))
-                projectsToRemove = projectToRemove.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            else
-                projectsToRemove = new[] { projectToRemove };
+            var projectsToRemove = Args.Value("P").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToHashSet();
 
+            var slnFiles = new List<string>();
+            foreach (var csprojPath in Directory.GetFiles(searchDirectory, $"*.sln", SearchOption.AllDirectories))
+            {
+                var text = File.ReadAllText(csprojPath);
+                if (projectsToRemove.Any(p=> text.Contains(p)))
+                {
+                    slnFiles.Add(csprojPath);
+                }
+            }
             var projectRemover = new ProjectRemover(new Retry());
             if (!string.IsNullOrEmpty(solutionFullPath))
                 await projectRemover.RemoveAsync(solutionFullPath, projectsToRemove);
-            else if (!string.IsNullOrEmpty(solutionListFile))
-                await projectRemover.RemoveAllAsync(solutionListFile, projectsToRemove);
+            else if (slnFiles.Any())
+                await projectRemover.RemoveAllAsync(slnFiles, projectsToRemove);
         }
     }
 
@@ -42,12 +47,9 @@ namespace Rhyous.RemoveProjectFromSolution
         {
             _retry = retry;
         }
-        public async Task RemoveAllAsync(string solutionListFile, IEnumerable<string> projectsToRemove)
+        public async Task RemoveAllAsync(IEnumerable<string> solutionList, IEnumerable<string> projectsToRemove)
         {
-            if (!File.Exists(solutionListFile))
-                throw new Exception($"File does not exist: {solutionListFile}");
-            var slnPaths = File.ReadAllLines(solutionListFile);
-            foreach (var slnPath in slnPaths)
+            foreach (var slnPath in solutionList)
             {
                 await RemoveAsync(slnPath, projectsToRemove);
             }

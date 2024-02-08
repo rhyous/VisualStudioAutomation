@@ -30,21 +30,20 @@ namespace Rhyous.RemoveProjectFromSolution.Arguments
                 },
                 new Argument
                 {
-                    Name = "SolutionListFile",
-                    ShortName = "L",
-                    Description = "The path to a file containing a list of solutions.",
-                    Example = "{name}=c:\\path\\to\\Solution.sln",
-                    Action = (value) => { Console.WriteLine(value); },
-                    IsRequired = false
-                },
-                new Argument
-                {
                     Name = "P",
                     ShortName = "ProjectName",
                     Description = "ProjectName",
                     Example = "{name}=NonDefaultValue",
                     IsRequired = true
                 },
+                new Argument
+                {
+                    Name = "SearchDirectory",
+                    ShortName = "SD",
+                    Description = "The search directory.",
+                    Example = "{name}=c:\\Some\\Dir",
+                    IsRequired = true
+                 },
                 // Add more args here
                 // new Argument
                 // {
