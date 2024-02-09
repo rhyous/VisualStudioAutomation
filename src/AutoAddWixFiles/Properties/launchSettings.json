@@ -2,7 +2,7 @@
   "profiles": {
     "AutoAddWixFiles": {
       "commandName": "Project",
-      "commandLineArgs": "FL=C:\\TFS\\ORC-26530\\found.txt PD=inContact.IoC.dll,Ninject.dll,Common.dll,Newtonsoft.Json.dll D=inContact.Interfaces.dll donothing=true"
+      "commandLineArgs": "FL=C:\\TFS\\ORC-30778\\ChangedFiles.txt PD=inContact.IoC.dll,Ninject.dll,Common.dll,Newtonsoft.Json.dll D=EsnInterfaces.dll tfc=true"
     }
   }
 }

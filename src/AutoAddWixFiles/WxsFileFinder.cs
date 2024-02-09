@@ -63,8 +63,8 @@ namespace Rhyous.AutoAddDLLtoWXSFiles
                             while (!lines[i].Contains("/>"))
                             {
                                 i++;
-                                addDetails.AfterLineNumber = i;
                             }
+                            addDetails.AfterLineNumber = i;
                         }
                     }
                     if (dllAlreadyExists)

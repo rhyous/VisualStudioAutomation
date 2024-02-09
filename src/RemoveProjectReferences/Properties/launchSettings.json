@@ -2,7 +2,7 @@
   "profiles": {
     "AddProjectsToSolution": {
       "commandName": "Project",
-      "commandLineArgs": "P=\\inContact.Interfaces.csproj FE=wixproj SD=C:\\TFS\\ORC-30544 tfc=true"
+      "commandLineArgs": "P=\\EsnInterfaces.csproj FE=wixproj SD=C:\\TFS\\ORC-30778 tfc=true"
     }
   }
 }
