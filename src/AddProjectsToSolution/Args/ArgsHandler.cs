@@ -1,6 +1,7 @@
 ﻿using Rhyous.SimpleArgs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Rhyous.AddProjectsToSolution.Arguments
 {
@@ -34,7 +35,7 @@ namespace Rhyous.AddProjectsToSolution.Arguments
                     ShortName = "P",
                     Description = "The string pattern to search for.",
                     Example = "{name}=PatternToSearch",
-                    IsRequired = true
+                    IsRequired = false
                 },
                 new Argument
                 {
@@ -42,7 +43,7 @@ namespace Rhyous.AddProjectsToSolution.Arguments
                     ShortName = "SD",
                     Description = "The search directory.",
                     Example = "{name}=c:\\Some\\Dir",
-                    IsRequired = true
+                    IsRequired = false
                 },
                 new Argument
                 {
@@ -51,6 +52,14 @@ namespace Rhyous.AddProjectsToSolution.Arguments
                     Description = "The file extension.",
                     Example = "{name}=csproj",
                     IsRequired = true
+                },
+                new Argument
+                {
+                    Name = "FileList",
+                    ShortName = "FL",
+                    Description = "A file list of project files to add.",
+                    Example = "{name}=.\\list\\list.txt",
+                    IsRequired = false
                 },
                 new ConfigFileArgument(argsManager) // This is a special Argument type to allow for args in a file
             });

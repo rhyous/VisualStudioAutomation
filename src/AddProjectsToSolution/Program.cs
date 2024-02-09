@@ -1,13 +1,13 @@
 ﻿using EnvDTE;
 using EnvDTE100;
 using EnvDTE80;
-using EnvDTE90;
 using Rhyous.AddProjectsToSolution.Arguments;
 using Rhyous.SimpleArgs;
 using Rhyous.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -22,18 +22,39 @@ namespace Rhyous.AddProjectsToSolution
             var searchPattern = Args.Value("P");
             var searchDirectory = Args.Value("SD");
             var fileExtension = Args.Value("FE");
-            string[] projectsToRemove;
+            var fileList = Args.Value("FL");
 
+            // Add from Search
             var projectsToAdd = new List<string>();
-            var csprojFiles = Directory.GetFiles(searchDirectory, $"*.{fileExtension}", SearchOption.AllDirectories);
-            foreach (var csprojPath in csprojFiles)
+            if (!string.IsNullOrWhiteSpace(searchDirectory) && !string.IsNullOrWhiteSpace(searchPattern))
             {
-                if (File.ReadAllText(csprojPath).Contains(searchPattern))
+                var csprojFiles = Directory.GetFiles(searchDirectory, $"*.{fileExtension}", SearchOption.AllDirectories);
+                foreach (var csprojPath in csprojFiles)
                 {
-                    projectsToAdd.Add(csprojPath);
+                    if (File.ReadAllText(csprojPath).Contains(searchPattern))
+                    {
+                        projectsToAdd.Add(csprojPath);
+                    }
                 }
             }
 
+            // Add from file list
+            if (!string.IsNullOrWhiteSpace(fileList) && File.Exists(fileList))
+            {
+                var list = File.ReadAllLines(fileList)
+                               .Where(l => !string.IsNullOrWhiteSpace(l))
+                               .Select(l => l.Trim())
+                               .Where(l => File.Exists(l))
+                               .ToList();
+                if (list.Any())
+                    projectsToAdd.AddRange(list);
+            }
+
+            if (!projectsToAdd.Any())
+            {
+                Console.WriteLine("No projects to add.");
+                return;
+            }
 
             // Get an instance of the Visual Studio IDE
             DTE2 dte = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.17.0");
@@ -105,7 +126,7 @@ namespace Rhyous.AddProjectsToSolution
             // Find the project to delete
             foreach (var projectToAdd in projectsToAdd)
             {
-                 _dte.ExecuteCommand($"File.AddExistingProject \"{projectToAdd}\"");
+                _dte.ExecuteCommand($"File.AddExistingProject \"{projectToAdd}\"");
             }
         }
     }
