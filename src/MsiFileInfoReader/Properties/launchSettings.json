@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MsiFileInfoReader": {
+      "commandName": "Project",
+      "commandLineArgs": "TF=C:\\MSICompare\\{0} LF=Left RF=Right F=Common.dll"
+    }
+  }
+}

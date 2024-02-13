@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <Authors>Jared Barneck (Rhyous)</Authors>
+    <Company>Rhyous Publishing LLC</Company>
+    <AssemblyName>Rhyous.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Rhyous.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Rhyous.SimpleArgs" Version="2.0.1" />
+    <PackageReference Include="WixToolset.Dtf.WindowsInstaller" Version="4.0.4" />
+    <PackageReference Include="WixToolset.Sdk" Version="4.0.4" />
+  </ItemGroup>
+  
+</Project>
