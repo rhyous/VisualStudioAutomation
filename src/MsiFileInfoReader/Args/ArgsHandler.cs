@@ -51,6 +51,14 @@ namespace Rhyous.MsiFileInfoReader.Arguments
                     Example = "{name}=example.dll",
                     IsRequired = true
                 },
+                new Argument
+                {
+                    Name = "Version",
+                    ShortName = "V",
+                    Description = "The new expected Version of the file.",
+                    Example = "{name}=example.dll",
+                    IsRequired = false
+                },
                 new ConfigFileArgument(argsManager) // This is a special Argument type to allow for args in a file
             });
         }

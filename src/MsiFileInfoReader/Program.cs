@@ -16,6 +16,7 @@ namespace Rhyous.MsiFileInfoReader
             var leftFolder = Args.Value("LF");
             var rightFolder = Args.Value("RF");
             var file = Args.Value("F");
+            var expectedNewVersion = Args.Value("V");
 
             var leftFolderFullPath = string.Format(tokenizedFolder, leftFolder);
             var rightFolderFullPath = string.Format(tokenizedFolder, rightFolder);
@@ -35,6 +36,10 @@ namespace Rhyous.MsiFileInfoReader
                 if (rightMsiFile != null)
                 {
                     Console.WriteLine($"Side: Right, Msi: {Path.GetFileName(msiFile)}, File: {file}, Version: {rightMsiFile.Version.PadLeft(12, ' ')}, Directory: {rightMsiFile.Folder}");
+                    if (!string.IsNullOrWhiteSpace(expectedNewVersion) && rightMsiFile.Version != expectedNewVersion)
+                    {
+                        Console.WriteLine("Warning! Expected version not found.");
+                    }
                 }
             }
 
